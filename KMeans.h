@@ -23,11 +23,11 @@ namespace KMeans {
         std::vector<int> getPointsCountAroundCentroids();
 
     private:
-        int n_clusters;
-        PointsArray centroids;
-        DistanceFun distance_fun;
-        int max_iteration;
-        PointsArray points;
+        int              n_clusters;
+        PointsArray      centroids;
+        DistanceFun      distance_fun;
+        int              max_iteration;
+        PointsArray      points;
         std::vector<int> cluster_counts;
         std::vector<int> cluster_assignments;
 
