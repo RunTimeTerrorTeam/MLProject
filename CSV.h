@@ -44,8 +44,8 @@ public:
 
 
 private:
-	std::string							  _path;
-	std::vector<std::string>			  _headers;
+	std::string						 _path;
+	std::vector<std::string>		 _headers;
 	std::vector<std::vector<double>> _data;
 
 

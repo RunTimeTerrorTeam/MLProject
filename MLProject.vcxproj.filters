@@ -19,6 +19,9 @@
     <Filter Include="Header Files\Helpers">
       <UniqueIdentifier>{442b5725-78da-4675-8382-d820ac4e23da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Examples">
+      <UniqueIdentifier>{1a1a8feb-a23d-403a-9137-2f0322db30fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MLProject.cpp">
@@ -35,5 +38,19 @@
     <ClInclude Include="KMeans.h">
       <Filter>Header Files\Algorithms</Filter>
     </ClInclude>
+    <ClInclude Include="KMeansExample.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\force.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\sample2d.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\testData.csv">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
