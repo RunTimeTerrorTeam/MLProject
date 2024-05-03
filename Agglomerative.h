@@ -3,7 +3,7 @@
 #include <string>
 
 namespace Agglomerative {
-#define V1D std::vector<double>
+	#define V1D std::vector<double>
 
 	typedef std::vector<double> Point;
 	typedef std::vector<Point> PointsArray;
@@ -15,21 +15,17 @@ namespace Agglomerative {
 		Agglomerative(DistanceFun);
 		std::vector<std::vector<std::string>> fitPredict(const PointsArray&);
 		
-		std::vector<std::vector<std::vector<double>>> distance_matrices;
 	private:
-		std::vector<std::string>                      current_labels;
-		std::vector<std::vector<std::string>>         labels;
-		std::vector<std::vector<double>>              distance_matrix;
-		DistanceFun                                   distance_fun;
-
-		void generateDistanceMatrix(const PointsArray&);
-		std::pair<int, int> findMinIndex();
-		V1D mergingRows(const std::pair<int, int>&);
-		void shrink(const int&);
-		void insertCluster(V1D, int);
-
+		std::vector<std::string>              current_labels;
+		std::vector<std::vector<std::string>> labels;
+		std::vector<std::vector<double>>      distance_matrix;
+		DistanceFun                           distance_fun;
 
 		void generateLabels(const int&);
+		void generateDistanceMatrix(const PointsArray&);
+		std::pair<int, int> findMinIndex();
+		void updateDistanceMatrix(const std::pair<int, int>&);
+		void updateLabels(const std::pair<int, int>&);
 	};
 
 	Agglomerative::Agglomerative(DistanceFun distance_fun)
@@ -37,16 +33,16 @@ namespace Agglomerative {
 
 	std::vector<std::vector<std::string>> Agglomerative::fitPredict(const PointsArray& points) {
 		generateDistanceMatrix(points);
-		generateLabels(points.size());
+		generateLabels((int)points.size());
 		
-		distance_matrices.push_back(distance_matrix);
+		int i = 0;
 
 		while (distance_matrix.size() != 1) {
+			std::cout << "step(" << ++i << "):" << std::endl;
 			auto miniIndex = findMinIndex();
-			auto cluster = mergingRows(miniIndex);
-			shrink(miniIndex.second);
-			insertCluster(cluster, miniIndex.first);
-			distance_matrices.push_back(distance_matrix);
+			updateDistanceMatrix(miniIndex);
+			updateLabels(miniIndex);
+			std::cout << "----*----*----*----*----*----*----*----*----*----*----*----" << std::endl;
 		}
 
 		return labels;
@@ -55,22 +51,33 @@ namespace Agglomerative {
 	void Agglomerative::generateDistanceMatrix(const PointsArray& points) {
 		int size = (int)points.size();
 		
-		distance_matrix = std::vector<std::vector<double>>(points.size(), std::vector<double>(size));
+		distance_matrix = std::vector<std::vector<double>>(size);
 
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				distance_matrix[i][j] = distance_fun(points[i], points[j]);
+		for (int i = size - 1; i > 0; i--)
+		{	
+			int ii = size - i;
+
+			if (ii % 100 == 0)
+				std::cout << "\rDistance Matrix: " << ii << " / " << size;
+
+			distance_matrix[ii] = std::vector<double>(ii);
+			
+			for (int j = 0; j < ii; j++) {
+				distance_matrix[ii][j] = distance_fun(points[ii], points[j]);
 			}
 		}
+
+		std::cout << "\rDistance Matrix: Done                       \n";
 	}
 
 	std::pair<int, int> Agglomerative::findMinIndex() {
 		std::pair<int, int> index;
 		double min = INFINITY;
-
+		std::cout << "\r\t- Searching for minIndex: " << 0 << " / " << distance_matrix.size();
 		for (int i = 0; i < distance_matrix.size(); i++) {
+			std::cout << "\r\t- Searching for minIndex: " << i + 1 << " / " << distance_matrix.size();
 			for (int j = 0; j < distance_matrix[i].size(); j++) {
-				if (distance_matrix[i][j] >= min || distance_matrix[i][j] == 0) continue;
+				if (distance_matrix[i][j] >= min) continue;
 
 				min = distance_matrix[i][j];
 				index.first = i;
@@ -78,56 +85,34 @@ namespace Agglomerative {
 			}
 		}
 
+		std::cout << "\r\t- Searching for minIndex: Done (Min value = " << min << ")" << std::endl;
+
 		return index;
 	}
 
-	V1D Agglomerative::mergingRows(const std::pair<int, int>& index) {
-		V1D rows[2] = { distance_matrix[index.first], distance_matrix[index.second] };
-
-		rows[0].erase(rows[0].begin() + index.second);
-		rows[1].erase(rows[1].begin() + index.second);
-
-		int size = (int)rows[1].size();
-		auto merging_row = V1D(size);
-
-		for (int i = 0; i < size; i++) {
-			merging_row[i] = std::min(rows[0][i], rows[1][i]);
+	// Hint: index.second < index.first always
+	void Agglomerative::updateDistanceMatrix(const std::pair<int, int>& index)
+	{	
+		std::cout << "\t- Updating Matrix . . .";
+		// row <=> row
+		for (int i = 0; i < index.second; i++) {
+			distance_matrix[index.second][i] = std::min(distance_matrix[index.first][i], distance_matrix[index.second][i]);
 		}
 
-		
-		current_labels[index.first] = current_labels[index.first] + ", " + current_labels[index.second];
-		current_labels.erase(current_labels.begin() + index.second);
-		labels.push_back(current_labels);
-
-		return merging_row;
-	}
-
-	// TODO: Optimize that
-	void Agglomerative::shrink(const int& index) {
-		// delete row
-		distance_matrix.erase(distance_matrix.begin() + index);
-
-		// delete col
-		for (int i = 0; i < distance_matrix.size(); i++) {
-			for (int j = 0; j < distance_matrix[i].size(); j++) {
-				if (j != index) continue;
-					
-				distance_matrix[i].erase(distance_matrix[i].begin() + index);
-			}
+		// col <=> row
+		for (int i = index.second + 1; i < index.first; i++) {
+			distance_matrix[i][index.second] = std::min(distance_matrix[index.first][i], distance_matrix[i][index.second]);
 		}
-	}
 
-	void Agglomerative::insertCluster(V1D updated_distance, int index) {
-		distance_matrix[index] = updated_distance;
-
-		for (int i = 0; i < distance_matrix.size(); i++)
-		{
-			for (int j = 0; j < distance_matrix.size(); j++) {
-				if (j == index && i != index) {
-					distance_matrix[i][j] = updated_distance[i];
-				}
-			}
+		// col <=> col
+		for (int i = index.first + 1; i < distance_matrix.size(); i++) {
+			distance_matrix[i][index.second] = std::min(distance_matrix[i][index.first], distance_matrix[i][index.second]);
+			distance_matrix[i].erase(distance_matrix[i].begin() + index.first);
 		}
+
+		distance_matrix.erase(distance_matrix.begin() + index.first);
+
+		std::cout << "\r\t- Updating Matrix Done" << std::endl;
 	}
 
 	void Agglomerative::generateLabels(const int& size) {
@@ -138,5 +123,15 @@ namespace Agglomerative {
 		}
 		
 		labels.push_back(current_labels);
+	}
+
+	void Agglomerative::updateLabels(const std::pair<int, int>& miniIndex) {
+		std::cout << "\t- Updating Labels . . .";
+
+		current_labels[miniIndex.second] += ", " + current_labels[miniIndex.first];
+		current_labels.erase(current_labels.begin() + miniIndex.first);
+		labels.push_back(current_labels);
+
+		std::cout << "\r\t- Updating Labels Done" << std::endl;
 	}
 }

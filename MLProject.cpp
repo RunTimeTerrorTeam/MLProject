@@ -10,28 +10,41 @@
 int main()
 {
 	try {
-		CSV csv("Resources/testData.csv");
+		CSV csv("Resources/force.csv");
+		auto data = csv.data();
+		
+		//std::vector <std::vector<double>> data = /*{
+		//	{1,1},
+		//	{1.5,1.5},
+		//	{5,5},
+		//	{3,4},
+		//	{4,4},
+		//	{3,3.5}
+		//};*/
 
+		// {
+		//	{0.7, 3.2},
+		//	{2.45, 2.89},
+		//	{3.47, 1.12},
+		//	{5.23, 5.24},
+		//	{5.98, 6.23},
+		//	{7.778, 8.63},
+		//	{8.97, 6.12}
+		//};
+		
+		
 		//KMeans::KMeansExample::run(
 		//	KMeans::KMeans(Distance::Euclidean, 10, 30), 
-		//	csv.data()
+		//	data
 		//);
 		
-		auto data = csv.data();
-
+		
 		Agglomerative::Agglomerative agg(Distance::Euclidean);
+		
 		
 		int i = 0;
 
-		for (const auto& labels : agg.fitPredict(data)) {
-			for (auto row : agg.distance_matrices[i]) {
-				for (auto e : row)
-				{
-					std::cout << e << "\t\t\t";
-				}
-				std::cout << std::endl;
-			}
-
+		for (const auto& labels : agg.fitPredict(std::vector<std::vector<double>>(data.begin(), data.begin() + 5000))) {
 			std::cout << "_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_" << std::endl;
 			std::cout << "step(" << ++i << "):" << std::endl;
 			std::cout << "_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_" << std::endl;

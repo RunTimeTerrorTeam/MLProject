@@ -55,5 +55,8 @@
     <None Include="Resources\testData.csv">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Resources\data.csv">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

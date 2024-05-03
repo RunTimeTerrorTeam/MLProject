@@ -140,6 +140,7 @@
     <ClInclude Include="KMeansExample.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\data.csv" />
     <None Include="Resources\force.csv" />
     <None Include="Resources\sample2d.csv" />
     <None Include="Resources\testData.csv" />
