@@ -73,9 +73,11 @@ namespace Agglomerative {
 	std::pair<int, int> Agglomerative::findMinIndex() {
 		std::pair<int, int> index;
 		double min = INFINITY;
-		std::cout << "\r\t- Searching for minIndex: " << 0 << " / " << distance_matrix.size();
 		for (int i = 0; i < distance_matrix.size(); i++) {
-			std::cout << "\r\t- Searching for minIndex: " << i + 1 << " / " << distance_matrix.size();
+			
+			if (i % 100 == 0)
+				std::cout << "\r\t- Searching for minIndex: " << i + 1 << " / " << distance_matrix.size();
+
 			for (int j = 0; j < distance_matrix[i].size(); j++) {
 				if (distance_matrix[i][j] >= min) continue;
 
