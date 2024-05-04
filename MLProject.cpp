@@ -27,14 +27,18 @@ std::vector <std::vector<double>> testData2 = {
 int main()
 {
 	try {
-		CSV csv("Resources/sample2d.csv");
-		auto data = csv.data();
+		CSV csv("Resources/editedForce.csv");
+		auto allData = csv.data();
+		
+		//auto data = allData;
+		auto data = std::vector<std::vector<double>>(allData.begin(), allData.begin() + 1000 /* max 12203 */);
+
 		std::cout << "~--~--~--~" << std::endl;
 		std::cout << "| KMeans |" << std::endl;
 		std::cout << "~--~--~--~" << std::endl;
-		KMeans::KMeansExample::run1(data, 10, INT_MAX /*, Distance::Euclidean*/);
+		KMeans::KMeansExample::run1(data, 10, 80 /* max INT_MAX*/ /*, Distance::Euclidean*/);
 		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
-		KMeans::KMeansExample::run2(data, 10, INT_MAX /*, Distance::Euclidean*/);
+		KMeans::KMeansExample::run2(data, 10, 80 /* max INT_MAX*/ /*, Distance::Euclidean*/);
 		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 		
 		std::cout << "Next Agglomerative ";

@@ -45,7 +45,10 @@
       <Filter>Header Files\Examples</Filter>
     </ClInclude>
     <ClInclude Include="AgglomerativeExample.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Examples</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files\Helpers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +62,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Resources\data.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\editedForce.csv">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

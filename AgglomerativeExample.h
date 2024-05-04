@@ -9,27 +9,21 @@ namespace Agglomerative {
 	{
 	public:
 		static void run1(PointsArray, DistanceFun);
-	private:
-
 	};
 
 	void AgglomerativeExample::run1(PointsArray points, DistanceFun distance = Distance::Euclidean) {
 		auto agg = Agglomerative(distance);
+		auto timer = Timer();
 
 		int i = 0;
 
-		for (const auto& labels : agg.fitPredict(points)) {
-			std::cout << "_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_" << std::endl;
-			std::cout << "step(" << i << "):" << std::endl;
-			std::cout << "_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_" << std::endl;
+		timer.start();
+		auto steps_labels = agg.fitPredict(points);
+		timer.end();
 
-			for (int j = 0; j < labels.size(); j++)
-			{
-				std::cout << "cluster(" << j + 1 << "): [" << labels[j] << "]" << std::endl;
-			}
+		// TODO: write to csv
 
-			std::cout << "==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==+==" << std::endl;
-		}
+		std::cout << "time spend: " << std::fixed << timer.timeSpend() << "s" << std::endl;
 	}
 }
 

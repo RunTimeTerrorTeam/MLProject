@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 
+#include "timer.h"
 #include "KMeans.h"
 #include "Distance.h"
 
@@ -8,7 +9,7 @@ namespace KMeans {
 	class KMeansExample
 	{
 	public:
-		// run data and get points cluster assignment, centroids, and count every point nearest point
+		// run data and get points cluster assignment, centroids, number of points in cluster, and time spend
 		static void run1(PointsArray, int, int, DistanceFun);
 		// run data and get number of cluster and inertia
 		static void run2(PointsArray, int, int, DistanceFun);
@@ -20,13 +21,13 @@ namespace KMeans {
 
 	void KMeansExample::run1(PointsArray points, int n_cluster, int max_iterations, DistanceFun distance = Distance::Euclidean) {
 		auto km = KMeans(distance, n_cluster, max_iterations);
-
+		auto timer = Timer();
+		
+		timer.start();
 		auto cluster_assignments = km.fitPredict(points);
+		timer.end();
 
-		for (int i = 0; i < points.size(); i++) {
-			std::cout << "Point " << i + 1 << ": " << point(points[i]) << " is cluster : " << cluster_assignments[i] << std::endl;
-		}
-		std::cout << std::endl;
+		// TODO: write to csv
 
 		auto centroids = km.getCentroids();
 		auto count = km.getPointsCountAroundCentroids();
@@ -34,8 +35,12 @@ namespace KMeans {
 		std::cout << "Centroids:" << std::endl;
 
 		for (int i = 0; i < centroids.size(); i++) {
-			std::cout << "\t" << point(centroids[i]) << " number of points nearest to it " << count[i] << std::endl;
+			std::cout << "* Cluster(" << i + 1 << "): " << std::endl;
+			std::cout << "\t- Centroid:" << point(centroids[i]) << std::endl; 
+			std::cout << "\t- number of points: " << count[i] << std::endl;
 		}
+
+		std::cout << "\n# time spend: " << std::fixed << timer.timeSpend() << "s" << std::endl;
 	}
 
 	void KMeansExample::run2(PointsArray points, int max_n_cluster, int max_iterations, DistanceFun distance = Distance::Euclidean) {

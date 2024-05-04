@@ -34,15 +34,11 @@ namespace Agglomerative {
 	std::vector<std::vector<std::string>> Agglomerative::fitPredict(const PointsArray& points) {
 		generateDistanceMatrix(points);
 		generateLabels((int)points.size());
-		
-		int i = 0;
 
 		while (distance_matrix.size() != 1) {
-			std::cout << "step(" << ++i << "):" << std::endl;
 			auto miniIndex = findMinIndex();
 			updateDistanceMatrix(miniIndex);
 			updateLabels(miniIndex);
-			std::cout << "----*----*----*----*----*----*----*----*----*----*----*----" << std::endl;
 		}
 
 		return labels;
@@ -57,27 +53,18 @@ namespace Agglomerative {
 		{	
 			int ii = size - i;
 
-			if (ii % 100 == 0)
-				std::cout << "\rDistance Matrix: " << ii << " / " << size;
-
 			distance_matrix[ii] = std::vector<double>(ii);
 			
 			for (int j = 0; j < ii; j++) {
 				distance_matrix[ii][j] = distance_fun(points[ii], points[j]);
 			}
 		}
-
-		std::cout << "\rDistance Matrix: Done                       \n";
 	}
 
 	std::pair<int, int> Agglomerative::findMinIndex() {
 		std::pair<int, int> index;
 		double min = INFINITY;
 		for (int i = 0; i < distance_matrix.size(); i++) {
-			
-			if (i % 100 == 0)
-				std::cout << "\r\t- Searching for minIndex: " << i + 1 << " / " << distance_matrix.size();
-
 			for (int j = 0; j < distance_matrix[i].size(); j++) {
 				if (distance_matrix[i][j] >= min) continue;
 
@@ -87,15 +74,12 @@ namespace Agglomerative {
 			}
 		}
 
-		std::cout << "\r\t- Searching for minIndex: Done (Min value = " << min << ")" << std::endl;
-
 		return index;
 	}
 
 	// Hint: index.second < index.first always
 	void Agglomerative::updateDistanceMatrix(const std::pair<int, int>& index)
 	{	
-		std::cout << "\t- Updating Matrix . . .";
 		// row <=> row
 		for (int i = 0; i < index.second; i++) {
 			distance_matrix[index.second][i] = std::min(distance_matrix[index.first][i], distance_matrix[index.second][i]);
@@ -113,8 +97,6 @@ namespace Agglomerative {
 		}
 
 		distance_matrix.erase(distance_matrix.begin() + index.first);
-
-		std::cout << "\r\t- Updating Matrix Done" << std::endl;
 	}
 
 	void Agglomerative::generateLabels(const int& size) {
@@ -128,12 +110,8 @@ namespace Agglomerative {
 	}
 
 	void Agglomerative::updateLabels(const std::pair<int, int>& miniIndex) {
-		std::cout << "\t- Updating Labels . . .";
-
 		current_labels[miniIndex.second] += ", " + current_labels[miniIndex.first];
 		current_labels.erase(current_labels.begin() + miniIndex.first);
 		labels.push_back(current_labels);
-
-		std::cout << "\r\t- Updating Labels Done" << std::endl;
 	}
 }

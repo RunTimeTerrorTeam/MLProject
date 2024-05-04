@@ -139,9 +139,11 @@
     <ClInclude Include="Distance.h" />
     <ClInclude Include="KMeans.h" />
     <ClInclude Include="KMeansExample.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\data.csv" />
+    <None Include="Resources\editedForce.csv" />
     <None Include="Resources\force.csv" />
     <None Include="Resources\sample2d.csv" />
     <None Include="Resources\testData.csv" />
