@@ -23,7 +23,7 @@ namespace Agglomerative {
 
 		// TODO: write to csv
 
-		std::cout << "time spend: " << std::fixed << timer.timeSpend() << "s" << std::endl;
+		timer.ElapsedTime();
 	}
 }
 
