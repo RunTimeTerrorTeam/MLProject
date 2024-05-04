@@ -38,11 +38,14 @@
     <ClInclude Include="KMeans.h">
       <Filter>Header Files\Algorithms</Filter>
     </ClInclude>
-    <ClInclude Include="KMeansExample.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Agglomerative.h">
       <Filter>Header Files\Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="KMeansExample.h">
+      <Filter>Header Files\Examples</Filter>
+    </ClInclude>
+    <ClInclude Include="AgglomerativeExample.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

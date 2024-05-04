@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agglomerative.h" />
+    <ClInclude Include="AgglomerativeExample.h" />
     <ClInclude Include="CSV.h" />
     <ClInclude Include="Distance.h" />
     <ClInclude Include="KMeans.h" />
