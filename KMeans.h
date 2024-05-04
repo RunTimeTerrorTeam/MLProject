@@ -22,8 +22,11 @@ namespace KMeans {
         // Return last executed data points count in every cluster
         std::vector<int> getPointsCountAroundCentroids();
 
+        double inertia() const;
+
     private:
         int              n_clusters;
+        double           sse;
         PointsArray      centroids;
         DistanceFun      distance_fun;
         int              max_iteration;
@@ -36,13 +39,13 @@ namespace KMeans {
         // Assign data points to clusters
         bool updateClusters();
         // Get min distance between point and every centroid
-        int findNearestCentroid(const Point&);
+        std::pair<int, double> findNearestCentroid(const Point&);
         // Get average points in every cluster
         void updateCentroids();
     };
 
     KMeans::KMeans(DistanceFun distance_fun, int n_clusters = 2, int max_iteration = 100)
-        : n_clusters(n_clusters), distance_fun(distance_fun), max_iteration(max_iteration) {}
+        : n_clusters(n_clusters), distance_fun(distance_fun), max_iteration(max_iteration), sse(0) {}
 
     std::vector<int> KMeans::fitPredict(const PointsArray& points) {
         this->points = points;
@@ -74,6 +77,9 @@ namespace KMeans {
         return cluster_assignments;
     }
 
+    double KMeans::inertia() const {
+        return sse;
+    }
 
     void KMeans::setRandomCentroids() {
         const int size = (int)points.size();
@@ -87,22 +93,24 @@ namespace KMeans {
 
     bool KMeans::updateClusters() {
         bool centroidsChanged = false;
+        sse = 0;
 
         // set to every point the new centroid
         for (int i = 0; i < points.size(); ++i) {
-            int nearestCentroid = findNearestCentroid(points[i]);
+            auto nearestCentroid = findNearestCentroid(points[i]);
+            sse += nearestCentroid.second * nearestCentroid.second;
 
-            if (cluster_assignments[i] == nearestCentroid)
+            if (cluster_assignments[i] == nearestCentroid.first)
                 continue;
 
-            cluster_assignments[i] = nearestCentroid;
+            cluster_assignments[i] = nearestCentroid.first;
             centroidsChanged = true;
         }
 
         return centroidsChanged;
     }
 
-    int KMeans::findNearestCentroid(const Point& point) {
+    std::pair<int, double> KMeans::findNearestCentroid(const Point& point) {
         int nearestIndex = 0;
         double minDistance = distance_fun(point, centroids[0]);
 
@@ -115,7 +123,7 @@ namespace KMeans {
                 nearestIndex = i;
             }
         }
-        return nearestIndex;
+        return { nearestIndex, minDistance };
     }
 
     void KMeans::updateCentroids() {
