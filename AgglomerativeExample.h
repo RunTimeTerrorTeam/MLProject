@@ -3,6 +3,7 @@
 
 #include "Agglomerative.h"
 #include "Distance.h"
+#include "Timer.h"
 
 namespace Agglomerative {
 	class AgglomerativeExample
@@ -15,12 +16,10 @@ namespace Agglomerative {
 		auto agg = Agglomerative(distance);
 		auto timer = Timer();
 
-		int i = 0;
-
 		timer.start();
 		auto steps_labels = agg.fitPredict(points);
 		timer.end();
-
+		
 		// TODO: write to csv
 
 		std::cout << "time spend: " << std::fixed << timer.timeSpend() << "s" << std::endl;

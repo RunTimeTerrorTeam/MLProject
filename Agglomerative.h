@@ -49,14 +49,12 @@ namespace Agglomerative {
 		
 		distance_matrix = std::vector<std::vector<double>>(size);
 
-		for (int i = size - 1; i > 0; i--)
+		for (int i = 0; i < size; i++)
 		{	
-			int ii = size - i;
-
-			distance_matrix[ii] = std::vector<double>(ii);
+			distance_matrix[i] = std::vector<double>(i);
 			
-			for (int j = 0; j < ii; j++) {
-				distance_matrix[ii][j] = distance_fun(points[ii], points[j]);
+			for (int j = 0; j < i; j++) {
+				distance_matrix[i][j] = distance_fun(points[i], points[j]);
 			}
 		}
 	}

@@ -57,6 +57,7 @@ private:
 		std::string		  cell;
 		std::vector<T>    row;
 
+		int i = 0;
 		while (std::getline(lineStream, cell, ','))
 			row.push_back(converter(cell));
 

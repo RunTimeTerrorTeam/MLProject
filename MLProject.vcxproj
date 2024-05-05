@@ -136,6 +136,8 @@
     <ClInclude Include="Agglomerative.h" />
     <ClInclude Include="AgglomerativeExample.h" />
     <ClInclude Include="CSV.h" />
+    <ClInclude Include="DBScan.h" />
+    <ClInclude Include="DBScanExample.h" />
     <ClInclude Include="Distance.h" />
     <ClInclude Include="KMeans.h" />
     <ClInclude Include="KMeansExample.h" />
