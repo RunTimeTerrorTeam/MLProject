@@ -10,7 +10,7 @@ namespace KMeans {
 	{
 	public:
 		// run data and get points cluster assignment, centroids, number of points in cluster, and time spend
-		static void run1(PointsArray, int, int, DistanceFun);
+		static std::vector<int> run1(PointsArray, int, int, DistanceFun);
 		// run data and get number of cluster and inertia
 		static void run2(PointsArray, int, int, DistanceFun);
 
@@ -19,7 +19,7 @@ namespace KMeans {
 		static std::string point(std::vector<double> p);
 	};
 
-	void KMeansExample::run1(PointsArray points, int n_cluster, int max_iterations, DistanceFun distance = Distance::Euclidean) {
+	std::vector<int> KMeansExample::run1(PointsArray points, int n_cluster, int max_iterations, DistanceFun distance = Distance::Euclidean) {
 		auto km = KMeans(distance, n_cluster, max_iterations);
 		auto timer = Timer();
 		
@@ -27,8 +27,6 @@ namespace KMeans {
 		auto cluster_assignments = km.fitPredict(points);
 		timer.end();
 
-		CSV::getInstance("").save<int>("clusters" , cluster_assignments);
-		
 		auto centroids = km.getCentroids();
 		auto count = km.getPointsCountAroundCentroids();
 
@@ -41,6 +39,8 @@ namespace KMeans {
 		}
 
 		timer.ElapsedTime();
+
+		return cluster_assignments;
 	}
 
 	void KMeansExample::run2(PointsArray points, int max_n_cluster, int max_iterations, DistanceFun distance = Distance::Euclidean) {

@@ -8,11 +8,10 @@
 class CSV
 {
 public:
-	CSV(){}
 	CSV(const std::string path) {
-		std::ifstream file(path);
 		_path = path;
-		std::cout << path;
+		std::ifstream file(path);
+
 		if (!file.is_open()) {
 			throw std::invalid_argument("Error: Can't open file \"" + path + "\" make sure it's exists.");
 		}
@@ -33,6 +32,8 @@ public:
 
 			_data.push_back(row);
 		}
+
+		file.close();
 	}
 
 	std::vector<std::string> headers() {
@@ -43,55 +44,49 @@ public:
 		return _data;
 	}
 	
-	template <typename Any>void save(std::string newHeader, std::vector<Any> newData) {
-		
+	template <typename Any>
+	void save(std::string newHeader, std::vector<Any> newData) {
 		std::ofstream cloneFile(fileName(_path));
-		_headers.push_back(newHeader);
-		for (int i = 0; i < newData.size(); i++) {
-			_data[i].push_back(newData[i]);
+		
+		for (const auto& header : _headers) {
+			cloneFile << header << ",";
 		}
-		std::string headers="";
-		for (int i = 0; i < _headers.size(); i++) {
-			i != _headers.size()-1?headers += _headers[i] + "," : headers += _headers[i];
-		}
-		cloneFile << headers+"\n";
-		for (int i = 0; i < _data.size(); i++) {
-			for (int j = 0; j < _data[i].size(); j++)
-				cloneFile << std::to_string(_data[i][j])+",";
-			cloneFile << "\n";
-		}
-	}
 
-	static CSV& getInstance(std::string path) {
-		if (!obj) {
-			obj = path!="" ? new CSV(path) : new CSV;
+		_headers.push_back(newHeader);
+		cloneFile << newHeader << std::endl;
+
+		int i = 0;
+		for (auto& row : _data) {
+			for (const auto& e : row) {
+				cloneFile << std::to_string(e) + ",";
+			}
+			
+			row.push_back(newData[i]);
+			cloneFile << std::to_string(newData[i++]) << "\n";
 		}
-		return *obj;
+
+		cloneFile.close();
 	}
 
 private:
 	std::string	                     _path;
 	std::vector<std::string>         _headers;
 	std::vector<std::vector<double>> _data;
+
 	std::string fileName(std::string path) {
 		auto ptr = path.rfind('/');
 		return path.insert(++ptr, "(output)");
 	}
-	static CSV* obj;
-
 
 	template<typename T>
-	// typedef int T;
 	std::vector<T> convert(std::string line, T(*converter)(std::string)) {
 		std::stringstream lineStream(line);
 		std::string		  cell;
 		std::vector<T>    row;
 
-		int i = 0;
 		while (std::getline(lineStream, cell, ','))
 			row.push_back(converter(cell));
 
 		return row;
 	}
 };
-CSV* CSV::obj = nullptr;

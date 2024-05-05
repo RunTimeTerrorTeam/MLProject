@@ -32,7 +32,7 @@ namespace DBScan {
 			//}
 			// std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 
-			std::cout << "time spend: " << t.timeSpend() << std::endl;
+			t.ElapsedTime();
 		}
 	};
 }

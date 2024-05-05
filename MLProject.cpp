@@ -43,18 +43,17 @@ std::vector<std::vector<double>> testData3 = {
 int main()
 {
 	try {
-		//CSV csv("Resources/editedForce.csv");
-		CSV& csv = CSV::getInstance("Resources/editedForce.csv");
+		CSV csv("Resources/force.csv");
 		auto allData = csv.data();
 		
-
-		//auto data = allData;
-		auto data = std::vector<std::vector<double>>(allData.begin(), allData.begin() +  1000/* max 12203 */);
+		auto data = allData;
+		//auto data = std::vector<std::vector<double>>(allData.begin(), allData.begin() +  1000/* max 12203 */);
 
 		std::cout << "~--~--~--~" << std::endl;
 		std::cout << "| KMeans |" << std::endl;
 		std::cout << "~--~--~--~" << std::endl;
-		KMeans::KMeansExample::run1(data, 10, 100 /* max INT_MAX*/ /*, Distance::Euclidean*/);
+		auto clusters = KMeans::KMeansExample::run1(data, 10, INT_MAX/* max INT_MAX*/ /*, Distance::Euclidean*/);
+		csv.save("cluster", clusters);
 		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 		KMeans::KMeansExample::run2(data, 10, 100 /* max INT_MAX*/ /*, Distance::Euclidean*/);
 		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
