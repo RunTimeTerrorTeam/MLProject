@@ -13,8 +13,8 @@ public:
         endAt = now();
     }
 
-    double timeSpend() {
-        return std::chrono::duration<double>(endAt - startAt).count();
+    void ElapsedTime() {
+        std::cout << "Elapsed Time : " << std::fixed << std::chrono::duration<double>(endAt - startAt).count() << "s" << std::endl;
     }
 private:
     typedef std::chrono::time_point<std::chrono::steady_clock> clock_point;

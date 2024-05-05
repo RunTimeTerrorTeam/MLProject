@@ -43,8 +43,13 @@ std::vector<std::vector<double>> testData3 = {
 int main()
 {
 	try {
-		CSV csv("Resources/sample2d.csv");
-		auto data = csv.data();
+		//CSV csv("Resources/editedForce.csv");
+		CSV& csv = CSV::getInstance("Resources/editedForce.csv");
+		auto allData = csv.data();
+		
+
+		//auto data = allData;
+		auto data = std::vector<std::vector<double>>(allData.begin(), allData.begin() +  1000/* max 12203 */);
 
 		std::cout << "~--~--~--~" << std::endl;
 		std::cout << "| KMeans |" << std::endl;

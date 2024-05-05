@@ -27,8 +27,8 @@ namespace KMeans {
 		auto cluster_assignments = km.fitPredict(points);
 		timer.end();
 
-		// TODO: write to csv
-
+		CSV::getInstance("").save<int>("clusters" , cluster_assignments);
+		
 		auto centroids = km.getCentroids();
 		auto count = km.getPointsCountAroundCentroids();
 
@@ -40,7 +40,7 @@ namespace KMeans {
 			std::cout << "\t- number of points: " << count[i] << std::endl;
 		}
 
-		std::cout << "\n# time spend: " << std::fixed << timer.timeSpend() << "s" << std::endl;
+		timer.ElapsedTime();
 	}
 
 	void KMeansExample::run2(PointsArray points, int max_n_cluster, int max_iterations, DistanceFun distance = Distance::Euclidean) {
