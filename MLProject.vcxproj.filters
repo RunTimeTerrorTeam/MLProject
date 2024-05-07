@@ -54,7 +54,10 @@
       <Filter>Header Files\Algorithms</Filter>
     </ClInclude>
     <ClInclude Include="DBScanExample.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Examples</Filter>
+    </ClInclude>
+    <ClInclude Include="Silhouette.h">
+      <Filter>Header Files\Algorithms</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

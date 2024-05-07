@@ -141,6 +141,7 @@
     <ClInclude Include="Distance.h" />
     <ClInclude Include="KMeans.h" />
     <ClInclude Include="KMeansExample.h" />
+    <ClInclude Include="Silhouette.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>

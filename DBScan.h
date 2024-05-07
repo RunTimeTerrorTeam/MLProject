@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <queue>
+#include "Silhouette.h"
 
 namespace DBScan {
 
@@ -27,6 +28,7 @@ namespace DBScan {
         std::vector<int>                 clusters_count;
         std::deque<int>                  neighbors;
 
+        DBScan() = default;
         void updateNeighbors(int);
         static std::vector<std::vector<double>> generateDistanceMatrix(const PointsArray& points, DistanceFun);
         bool is(std::vector<bool>&, int);
@@ -142,21 +144,22 @@ namespace DBScan {
         const std::pair<int, int>& min_points,
         double step
     ) {
-        auto    distance_matrix = generateDistanceMatrix(points, distance_fun);
-        double  bestSilhouette  = -1.0;
-        DBScan  db_scan(distance_fun, eps.first, min_points.first);
+        auto   distance_matrix = generateDistanceMatrix(points, distance_fun);
+        double bestSilhouette  = -1.0;
+        DBScan db_scan;
+        Silhouette silhouette(distance_matrix);
 
-        for (double _eps = eps.first; _eps <= eps.second; _eps += step) {
+        for (double _eps = eps.first; _eps < eps.second + step; _eps += step) {
             for (int min_pts = min_points.first; min_pts <= min_points.second; ++min_pts) {
                 DBScan _db_scan(distance_fun, _eps, min_pts);
                 _db_scan.distance_matrix = distance_matrix;
+                auto out = _db_scan.fitPredict_helper();
 
-                // TODO: make silhouette function
-                double silhouette = 0;
+                double silhouette_ans = silhouette.score(points, out);
 
-                if (silhouette <= bestSilhouette) continue; 
+                if (silhouette_ans <= bestSilhouette) continue; 
 
-                bestSilhouette = silhouette;
+                bestSilhouette = silhouette_ans;
                 db_scan = _db_scan;
             }
         }
