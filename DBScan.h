@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <queue>
 
 namespace DBScan {
 
@@ -7,95 +8,159 @@ namespace DBScan {
     typedef std::vector<Point> PointsArray;
     using DistanceFun = double(*)(Point, Point);
 
-    struct CPoint
-    {
-        int                                         label;
-        bool                                        is_processed;
-        bool                                        is_clustered;
-        std::vector<std::reference_wrapper<CPoint>> neighbors;
-
-        CPoint()
-            :label(-1), is_processed(false), is_clustered(false), neighbors() {}
-    };
-
     class DBScan
     {
     public:
-        DBScan(double eps, int minPts, DistanceFun distance_fun)
-            :eps(eps), minPts(minPts), distance_fun(distance_fun) {}
+        DBScan(DistanceFun, double, int);
+        std::vector<int> fitPredict(const PointsArray&);
+        std::vector<int> getClustersCounts();
+        int getMinPoints() const;
+        double getEps() const;
 
-        std::vector<std::vector<int>> fitPredict(const std::vector<Point>& points) {
-            this->original_points = points;
-            generateCPoints();
-
-            clusters = std::vector<std::vector<int>>();
-
-            for (auto& point : c_points) {
-                if (point.is_processed) continue;
-
-                point.is_processed = true;
-
-                if (point.neighbors.size() + 1 < minPts) continue;
-
-                std::vector<int> cluster = { point.label };
-
-                point.is_clustered = true;
-                auto& neighbors = point.neighbors;
-
-                for (int i = 0; i < neighbors.size(); i++) {
-                    if (!neighbors[i].get().is_processed) {
-                        neighbors[i].get().is_processed = true;
-
-                        auto& neighborNeighbors = neighbors[i].get().neighbors;
-
-                        if (neighborNeighbors.size() + 1 >= minPts) {
-                            neighbors.insert(neighbors.end(), neighborNeighbors.begin(), neighborNeighbors.end());
-                        }
-                    }
-
-                    if (!neighbors[i].get().is_clustered) {
-                        cluster.push_back(neighbors[i].get().label);
-                        neighbors[i].get().is_clustered = true;
-                    }
-                }
-
-                clusters.push_back(cluster);
-            }
-
-            return clusters;
-        }
-
-
-    private:
-        std::vector<Point>               original_points;
-        std::vector<CPoint>              c_points;
-        std::vector<std::vector<double>> distance_matrix;
+        static std::pair<DBScan, double> bestClusters(const std::vector<Point>&, DistanceFun, const std::pair<double, double>&, const std::pair<int, int>&, double);
+    private:                                                               
+        std::vector<int>                 clusters_assignments;
         double                           eps;
-        int                              minPts;
+        int                              min_points;
+        std::vector<std::vector<double>> distance_matrix;
         DistanceFun                      distance_fun;
-        std::vector<std::vector<int>>    clusters;
+        std::vector<int>                 clusters_count;
+        std::deque<int>                  neighbors;
 
-        void generateCPoints();
+        void updateNeighbors(int);
+        static std::vector<std::vector<double>> generateDistanceMatrix(const PointsArray& points, DistanceFun);
+        bool is(std::vector<bool>&, int);
+        std::vector<int> fitPredict_helper();
     };
 
 
-    void DBScan::generateCPoints()
-    {
-        int size = (int)original_points.size();
+    DBScan::DBScan(DistanceFun distance_fun, double eps, int min_points)
+        :distance_fun(distance_fun), eps(eps), min_points(min_points) {}
 
-        c_points = std::vector<CPoint>(size, CPoint());
+    int DBScan::getMinPoints() const {
+        return min_points;
+    }
+
+    double DBScan::getEps() const {
+        return eps;
+    }
+
+    std::vector<int> DBScan::fitPredict(const PointsArray& points) {
+        distance_matrix = generateDistanceMatrix(points, distance_fun);
+        return fitPredict_helper();
+    }
+     
+    std::vector<int> DBScan::fitPredict_helper() {
+        const int size = (int)distance_matrix.size();
+        std::vector<bool> processed(size, false);
+        int cluster_number = 0;
+
+        clusters_assignments = std::vector<int>(size, -1);
+
+        for (int i = 0; i < size; ++i) {
+            if (is(processed, i)) continue;
+
+            updateNeighbors(i);
+
+            if (neighbors.empty()) continue;
+
+            clusters_assignments[i] = cluster_number;
+            clusters_count.push_back(1);
+
+            while (!neighbors.empty()) {
+                int j = neighbors.front();
+                neighbors.pop_front();
+
+                if (!is(processed, j)) updateNeighbors(j);
+
+                if (clusters_assignments[j] == -1) {
+                    clusters_assignments[j] = cluster_number;
+                    clusters_count[cluster_number]++;
+                }
+            }
+
+            cluster_number++;
+        }
+
+        return clusters_assignments;
+    }
+
+    std::vector<int> DBScan::getClustersCounts() {
+        return clusters_count;
+    }
+
+    void DBScan::updateNeighbors(int pointIndex) {
+        std::deque<int> neighbors;
+
+        for (int i = 0; i < pointIndex; i++) {
+            if (distance_matrix[pointIndex][i] <= eps) 
+                neighbors.push_back(i);    
+        }
+
+        neighbors.push_back(pointIndex);
+
+        for (int i = pointIndex + 1; i < distance_matrix.size(); i++) {
+            if (distance_matrix[i][pointIndex] <= eps) {
+                neighbors.push_back(i);
+            }
+        }
+
+        if (neighbors.size() < min_points) return;
+
+        this->neighbors.insert(this->neighbors.end(), neighbors.begin(), neighbors.end());
+    }
+
+
+    std::vector<std::vector<double>> DBScan::generateDistanceMatrix(const PointsArray& points, DistanceFun distance_fun) {
+        int size = (int)points.size();
+
+        std::vector<std::vector<double>> distance_matrix(size);
 
         for (int i = 0; i < size; i++)
         {
-            c_points[i].label = i;
+            distance_matrix[i] = std::vector<double>(i);
 
             for (int j = 0; j < i; j++) {
-                const auto distance = distance_fun(original_points[i], original_points[j]);
-                if (distance > eps) continue;
-
-                c_points[i].neighbors.push_back(c_points[j]);
-                c_points[j].neighbors.push_back(c_points[i]);
+                distance_matrix[i][j] = distance_fun(points[i], points[j]);
             }
         }
+
+        return distance_matrix;
+    }
+
+    bool DBScan::is(std::vector<bool>& bools , int index) {
+        bool r = bools[index];
+        bools[index] = true;
+
+        return r;
+    }
+
+    std::pair<DBScan, double> DBScan::bestClusters(
+        const std::vector<Point>& points,
+        DistanceFun distance_fun,
+        const std::pair<double, double>& eps,
+        const std::pair<int, int>& min_points,
+        double step
+    ) {
+        auto    distance_matrix = generateDistanceMatrix(points, distance_fun);
+        double  bestSilhouette  = -1.0;
+        DBScan  db_scan(distance_fun, eps.first, min_points.first);
+
+        for (double _eps = eps.first; _eps <= eps.second; _eps += step) {
+            for (int min_pts = min_points.first; min_pts <= min_points.second; ++min_pts) {
+                DBScan _db_scan(distance_fun, _eps, min_pts);
+                _db_scan.distance_matrix = distance_matrix;
+
+                // TODO: make silhouette function
+                double silhouette = 0;
+
+                if (silhouette <= bestSilhouette) continue; 
+
+                bestSilhouette = silhouette;
+                db_scan = _db_scan;
+            }
+        }
+
+        return std::make_pair(db_scan, bestSilhouette);
     }
 }
