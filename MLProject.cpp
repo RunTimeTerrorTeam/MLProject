@@ -46,7 +46,7 @@ int main()
 		auto allData = csv.data();
 		
 		auto data = allData;
-		//auto data = std::vector<std::vector<double>>(allData.begin(), allData.begin() +  1000/* max 12203 */);
+		//auto data = std::vector<std::vector<double>>(allData.begin(), allData.begin() +  3000/* max 12203 */);
 
 		std::cout << "~--~--~--~" << std::endl;
 		std::cout << "| KMeans |" << std::endl;
@@ -54,27 +54,27 @@ int main()
 		auto clusters = KMeans::KMeansExample::run1(data, 10, INT_MAX/* max INT_MAX*/ /*, Distance::Euclidean*/);
 		csv.save("cluster", clusters);
 		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
-		KMeans::KMeansExample::run2(data, 10, 100 /* max INT_MAX*/ /*, Distance::Euclidean*/);
+		KMeans::KMeansExample::run2(data, 10, INT_MAX /* max INT_MAX*/ /*, Distance::Euclidean*/);
 		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 		
-		std::cout << "Next Agglomerative ";
+		/*std::cout << "Next Agglomerative ";
 		std::system("pause");
 
 		std::cout << "~--~--~--~--~--~" << std::endl;
 		std::cout << "| Agglomerative |" << std::endl;
 		std::cout << "~--~--~--~--~--~" << std::endl;
-		Agglomerative::AgglomerativeExample::run1(data);
-		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
+		Agglomerative::AgglomerativeExample::run1(data);*/
+		/*std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 
 		std::cout << "Next DBScan ";
-		std::system("pause");
+		std::system("pause");*/
 
-		std::cout << "~--~--~--~" << std::endl;
-		std::cout << "| DBScan |" << std::endl;
-		std::cout << "~--~--~--~" << std::endl;
-		DBScan::DBScanExample::run1(data, 4, 0.2 /*, Distance::Euclidean*/);
-		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
-		DBScan::DBScanExample::run2(data, { 2, 10 }, { 0.1, 1 }, 0.05 /*, Distance::Euclidean*/);
+		//std::cout << "~--~--~--~" << std::endl;
+		//std::cout << "| DBScan |" << std::endl;
+		//std::cout << "~--~--~--~" << std::endl;
+		////DBScan::DBScanExample::run1(data, 5, 1 /*, Distance::Euclidean*/);
+		////std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
+		//DBScan::DBScanExample::run2(data, { 7, 10 }, { 0.7, 1 }, 0.005 /*, Distance::Euclidean*/);
 
 	}
 	catch (std::exception e) {

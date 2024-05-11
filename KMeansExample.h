@@ -1,9 +1,11 @@
 #pragma once
 #include <iostream>
+#include <string>
 
 #include "timer.h"
 #include "KMeans.h"
 #include "Distance.h"
+#include "Plot.h"
 
 namespace KMeans {
 	class KMeansExample
@@ -37,8 +39,20 @@ namespace KMeans {
 			std::cout << "\t- Centroid:" << point(centroids[i]) << std::endl; 
 			std::cout << "\t- number of points: " << count[i] << std::endl;
 		}
-
+		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 		timer.ElapsedTime();
+
+		Plot plot;
+
+		plot.scatter(points, cluster_assignments);
+
+		plot.scatter(centroids);
+
+		plot.xLabel("x axis");
+		plot.yLabel("y axis");
+		plot.title("kmeans clusters (k = " + std::to_string(n_cluster) + ")");
+
+		plot.show();
 
 		return cluster_assignments;
 	}
@@ -46,12 +60,29 @@ namespace KMeans {
 	void KMeansExample::run2(PointsArray points, int max_n_cluster, int max_iterations, DistanceFun distance = Distance::Euclidean) {
 		std::cout << "n_cluster\tinertia" << std::endl;
 
+		std::vector<double> inertia(max_n_cluster);
+		std::vector<double> cluster(max_n_cluster);
+
 		for (int i = 1; i <= max_n_cluster; i++)
 		{
 			auto km = KMeans::KMeans(distance, i, max_iterations);
 			km.fitPredict(points);
-			std::cout << "    " << i << "    \t" << km.inertia() << std::endl;
+
+			cluster[i - 1] = i;
+			inertia[i - 1] = km.inertia();
+
+			std::cout << "    " << i << "    \t" << inertia[i - 1] << std::endl;
 		}
+
+		Plot plot2;
+
+		plot2.plot(cluster, inertia);
+
+		plot2.xLabel("Number of Clusters");
+		plot2.yLabel("Inertia");
+		plot2.title("KMeans with Inertia");
+
+		plot2.show();
 	}
 
 	std::string KMeansExample::point(std::vector<double> p) {

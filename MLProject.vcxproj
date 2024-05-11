@@ -131,6 +131,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="pbPlots.cpp" />
+    <ClCompile Include="supportLib.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agglomerative.h" />
@@ -141,7 +143,10 @@
     <ClInclude Include="Distance.h" />
     <ClInclude Include="KMeans.h" />
     <ClInclude Include="KMeansExample.h" />
+    <ClInclude Include="pbPlots.hpp" />
+    <ClInclude Include="Plot.h" />
     <ClInclude Include="Silhouette.h" />
+    <ClInclude Include="supportLib.hpp" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +154,7 @@
     <None Include="Resources\editedForce.csv" />
     <None Include="Resources\force.csv" />
     <None Include="Resources\sample2d.csv" />
+    <None Include="Resources\skin_.csv" />
     <None Include="Resources\testData.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -22,10 +22,19 @@
     <Filter Include="Header Files\Examples">
       <UniqueIdentifier>{1a1a8feb-a23d-403a-9137-2f0322db30fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Pbplots">
+      <UniqueIdentifier>{62fa29ef-35b5-4233-8a00-a6b547dfb90f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MLProject.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pbPlots.cpp">
+      <Filter>Header Files\Pbplots</Filter>
+    </ClCompile>
+    <ClCompile Include="supportLib.cpp">
+      <Filter>Header Files\Pbplots</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +68,15 @@
     <ClInclude Include="Silhouette.h">
       <Filter>Header Files\Algorithms</Filter>
     </ClInclude>
+    <ClInclude Include="pbPlots.hpp">
+      <Filter>Header Files\Pbplots</Filter>
+    </ClInclude>
+    <ClInclude Include="supportLib.hpp">
+      <Filter>Header Files\Pbplots</Filter>
+    </ClInclude>
+    <ClInclude Include="Plot.h">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\force.csv">
@@ -74,6 +92,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Resources\editedForce.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\skin_.csv">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
