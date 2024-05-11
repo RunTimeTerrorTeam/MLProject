@@ -6,6 +6,10 @@
 #include "AgglomerativeExample.h"
 #include "DBScanExample.h"
 #include "Silhouette.h"
+using namespace std;
+
+
+// test branch with_optics
 
 std::vector <std::vector<double>> testData1 = {
 	{1,1},
@@ -24,23 +28,11 @@ std::vector <std::vector<double>> testData2 = {
 	{7.778, 8.63},
 	{8.97, 6.12}
 };
-std::vector<std::vector<double>> testData3 = {
-	{ 3, 7 }, //0
-	{ 4, 6 }, //1
-	{ 5, 5 }, //2
-	{ 6, 4 }, //3
-	{ 7, 3 }, //4
-	{ 6, 2 }, //5
-	{ 7, 2 }, //6
-	{ 8, 4 }, //7
-	{ 3, 3 }, //8
-	{ 2, 6 }, //9
-	{ 3, 5 }, //10
-	{ 2, 4 }, //11
-};
+
 
 int main()
 {
+	cout << "test " << endl;
 	try {
 		CSV csv("Resources/SKIN_05.csv");
 		auto allData = csv.data();
