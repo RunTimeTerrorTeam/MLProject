@@ -59,6 +59,12 @@
     <ClInclude Include="Silhouette.h">
       <Filter>Header Files\Algorithms</Filter>
     </ClInclude>
+    <ClInclude Include="Optics.h">
+      <Filter>Header Files\Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="OpticsExample.h">
+      <Filter>Header Files\Examples</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\force.csv">

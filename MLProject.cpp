@@ -1,15 +1,24 @@
 #include <iostream>
 #include <exception>
 
+
+
 #include "CSV.h"
 #include "KMeansExample.h"
 #include "AgglomerativeExample.h"
 #include "DBScanExample.h"
+#include "OpticsExample.h"
 #include "Silhouette.h"
-using namespace std;
 
 
-// test branch with_optics
+
+
+
+
+
+
+
+
 
 std::vector <std::vector<double>> testData1 = {
 	{1,1},
@@ -32,22 +41,24 @@ std::vector <std::vector<double>> testData2 = {
 
 int main()
 {
-	cout << "test " << endl;
+
+
 	try {
-		CSV csv("Resources/SKIN_05.csv");
+		CSV csv("Resources/sample2d.csv");
 		auto allData = csv.data();
-		
-		auto data = allData;
 		//auto data = std::vector<std::vector<double>>(allData.begin(), allData.begin() +  1000/* max 12203 */);
+
+
+
+
+		
 
 		//std::cout << "~--~--~--~" << std::endl;
 		//std::cout << "| KMeans |" << std::endl;
 		//std::cout << "~--~--~--~" << std::endl;
 		//auto clusters = KMeans::KMeansExample::run1(data, 10, INT_MAX/* max INT_MAX*/ /*, Distance::Euclidean*/);
 		//csv.save("cluster", clusters);
-		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
-		std::cout << "                           Mohamed Atef Device                       "<<std::endl;
-		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
+
 
 		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 		//KMeans::KMeansExample::run2(data, 10, 100 /* max INT_MAX*/ /*, Distance::Euclidean*/);
@@ -65,13 +76,23 @@ int main()
 		//std::cout << "Next DBScan ";
 		//std::system("pause");
 
-		std::cout << "~--~--~--~" << std::endl;
-		std::cout << "| DBScan |" << std::endl;
-		std::cout << "~--~--~--~" << std::endl;
+		//std::cout << "~--~--~--~" << std::endl;
+		//std::cout << "| DBScan |" << std::endl;
+		//std::cout << "~--~--~--~" << std::endl;
 		//DBScan::DBScanExample::run1(data, 4, 0.2 /*, Distance::Euclidean*/);
-		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
-		DBScan::DBScanExample::run2(data, { 2, 6 }, { 2.5, 3 }, 0.1 /*, Distance::Euclidean*/);
+		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
+		//DBScan::DBScanExample::run2(data, { 2, 6 }, { 2.5, 3 }, 0.1 /*, Distance::Euclidean*/);
 
+
+
+
+		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
+		std::cout << "                  Mohamed Atef Device Optics							"<< std::endl;
+		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
+
+
+		Optics::OpticsExample::run(allData,0.5, 2) ;
+		
 	}
 	catch (std::exception e) {
 		std::cout << e.what();
