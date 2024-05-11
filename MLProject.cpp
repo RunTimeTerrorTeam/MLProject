@@ -42,17 +42,17 @@ std::vector<std::vector<double>> testData3 = {
 int main()
 {
 	try {
-		CSV csv("Resources/sample2d.csv");
+		CSV csv("Resources/SKIN_05.csv");
 		auto allData = csv.data();
 		
 		auto data = allData;
 		//auto data = std::vector<std::vector<double>>(allData.begin(), allData.begin() +  3000/* max 12203 */);
 
-		std::cout << "~--~--~--~" << std::endl;
-		std::cout << "| KMeans |" << std::endl;
-		std::cout << "~--~--~--~" << std::endl;
-		auto clusters = KMeans::KMeansExample::run1(data, 10, INT_MAX/* max INT_MAX*/ /*, Distance::Euclidean*/);
-		csv.save("cluster", clusters);
+		//std::cout << "~--~--~--~" << std::endl;
+		//std::cout << "| KMeans |" << std::endl;
+		//std::cout << "~--~--~--~" << std::endl;
+		//auto clusters = KMeans::KMeansExample::run1(data, 10, INT_MAX/* max INT_MAX*/ /*, Distance::Euclidean*/);
+		//csv.save("cluster", clusters);
 		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 		KMeans::KMeansExample::run2(data, 10, INT_MAX /* max INT_MAX*/ /*, Distance::Euclidean*/);
 		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
