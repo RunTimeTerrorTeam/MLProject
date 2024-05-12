@@ -91,7 +91,7 @@ int main()
 		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 
 
-		//Optics::OpticsExample::run(allData,1.9, 4) ;
+		Optics::OpticsExample::run(testData1,2,2);
 		
 	}
 	catch (std::exception e) {
