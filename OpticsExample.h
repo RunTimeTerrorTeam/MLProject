@@ -15,7 +15,8 @@ namespace Optics {
 				for (int j = 0; j < p.size(); j++) {
 					points.push_back(p[j]);
 				}
-				DB.push_back({ points, index++ });
+				DB.push_back({ points, index });
+				index += 1;
 			}
 
 			return DB;
@@ -27,6 +28,7 @@ namespace Optics {
 
 			std::vector<Point> ready_points = OpticsExample::prepareData(data);
 			
+
 			auto o = Optics::Optics(ready_points, eps, min_pts);
 			o.fit();
 			o.printClusters();

@@ -44,6 +44,13 @@ namespace Optics {
             return dist;
         }
 
+        double eculdian(Point p1, Point p2) {
+            double dist = 0;
+            for (size_t i = 0; i < p1.coordinates.size(); ++i) {
+                dist += pow(p2.coordinates[i] - p1.coordinates[i], 2);
+            }
+            return sqrt(dist);
+        }
 
 
         std::vector<Point*> getNeighbors(Point p) {
@@ -101,8 +108,8 @@ namespace Optics {
 
             for (int i = 0; i < size; i++) {
                 for (int j = i; j < size; j++) {
-                    distance_matrix[i][j] = manhatinDistance(all_points[i], all_points[j]);
-                    distance_matrix[j][i] = manhatinDistance(all_points[i], all_points[j]);
+                    distance_matrix[i][j] = eculdian(all_points[i], all_points[j]);
+                    distance_matrix[j][i] = eculdian(all_points[i], all_points[j]);
                 }
             }
             return distance_matrix;

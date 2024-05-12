@@ -44,7 +44,7 @@ int main()
 
 
 	try {
-		CSV csv("Resources/sample2d.csv");
+		CSV csv("Resources/test2.csv");
 		auto allData = csv.data();
 		//auto data = std::vector<std::vector<double>>(allData.begin(), allData.begin() +  1000/* max 12203 */);
 
@@ -70,7 +70,7 @@ int main()
 		//std::cout << "~--~--~--~--~--~" << std::endl;
 		//std::cout << "| Agglomerative |" << std::endl;
 		//std::cout << "~--~--~--~--~--~" << std::endl;
-		//Agglomerative::AgglomerativeExample::run1(data);
+		Agglomerative::AgglomerativeExample::run1(allData);
 		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 
 		//std::cout << "Next DBScan ";
@@ -91,7 +91,7 @@ int main()
 		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 
 
-		Optics::OpticsExample::run(allData,0.5, 2) ;
+		//Optics::OpticsExample::run(allData,1.9, 4) ;
 		
 	}
 	catch (std::exception e) {

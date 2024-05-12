@@ -57,6 +57,8 @@ namespace Agglomerative {
 				distance_matrix[i][j] = distance_fun(points[i], points[j]);
 			}
 		}
+
+	
 	}
 
 	std::pair<int, int> Agglomerative::findMinIndex() {
@@ -95,6 +97,10 @@ namespace Agglomerative {
 		}
 
 		distance_matrix.erase(distance_matrix.begin() + index.first);
+
+
+
+
 	}
 
 	void Agglomerative::generateLabels(const int& size) {
@@ -111,5 +117,18 @@ namespace Agglomerative {
 		current_labels[miniIndex.second] += ", " + current_labels[miniIndex.first];
 		current_labels.erase(current_labels.begin() + miniIndex.first);
 		labels.push_back(current_labels);
+
+
+
+		for (int i = 0; i < labels.size(); i++)
+		{
+			std::cout << labels[i][0] << std::endl;
+
+			/*for (int j = 0; j < labels.size(); j++) {
+				std::cout << labels[i][j] << std::endl;
+			}*/
+		}
+		std::cout << "---------------------------------------" << std::endl;
+
 	}
 }
