@@ -65,23 +65,23 @@ int main()
 		//KMeans::KMeansExample::run2(data, 10, INT_MAX /* max INT_MAX*/ /*, Distance::Euclidean*/);
 		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 		
-		/*std::cout << "Next Agglomerative ";
-		std::system("pause");
-		*/
-		std::cout << "~--~--~--~--~--~" << std::endl;
-		std::cout << "| Agglomerative |" << std::endl;
-		std::cout << "~--~--~--~--~--~" << std::endl;
-		Agglomerative::AgglomerativeExample::run1(allData, 2, Agglomerative::LINKAGE::single);
-		/*std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
+		//std::cout << "Next Agglomerative ";
+		//std::system("pause");
+		
+		//std::cout << "~--~--~--~--~--~" << std::endl;
+		//std::cout << "| Agglomerative |" << std::endl;
+		//std::cout << "~--~--~--~--~--~" << std::endl;
+		//Agglomerative::AgglomerativeExample::run1(allData, 2, Agglomerative::LINKAGE::single);
+		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 
-		std::cout << "Next DBScan ";
-		std::system("pause");*/
+		//std::cout << "Next DBScan ";
+		//std::system("pause");
 
 		//std::cout << "~--~--~--~" << std::endl;
 		//std::cout << "| DBScan |" << std::endl;
 		//std::cout << "~--~--~--~" << std::endl;
-		////DBScan::DBScanExample::run1(data, 5, 1 /*, Distance::Euclidean*/);
-		////std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
+		//DBScan::DBScanExample::run1(data, 4, 0.25 /*, Distance::Euclidean*/);
+		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 		//DBScan::DBScanExample::run2(data, { 7, 10 }, { 0.7, 1 }, 0.005 /*, Distance::Euclidean*/);
 
 	}

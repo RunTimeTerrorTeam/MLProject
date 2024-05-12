@@ -7,12 +7,12 @@ namespace DBScan {
 	class DBScanExample
 	{
 	public:
-		static void run1(PointsArray data, int min_pts, double eps, DistanceFun distance = Distance::Euclidean) {
+		static void run1(PointsArray points, int min_pts, double eps, DistanceFun distance = Distance::Euclidean) {
 			auto db_scan = DBScan::DBScan(distance, eps, min_pts);
 
 			Timer t;
 			t.start();
-			auto out = db_scan.fitPredict(data);
+			auto cluster_assignment = db_scan.fitPredict(points);
 			t.end();
 
 			int i = 0;
@@ -23,11 +23,20 @@ namespace DBScan {
 				std::cout << "cluster (" << i++ << "): " << c << std::endl;
 			}
 
-			std::cout << "cluster (-1): " << data.size() - count << std::endl;
+			std::cout << "cluster (-1): " << points.size() - count << std::endl;
 
 			std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 
 			t.ElapsedTime();
+
+			Plot plot;
+
+			plot.scatter(points, cluster_assignment);
+			plot.xLabel("X axis");
+			plot.yLabel("Y axis");
+			plot.title("Agglomerative (eps = " + std::to_string(eps) + ", min points = " + std::to_string(min_pts) + ")");
+
+			plot.show();
 		}
 
 		static void run2(PointsArray data, std::pair<int, int> min_pts, std::pair<double, double> eps, double step, DistanceFun distance = Distance::Euclidean) {
