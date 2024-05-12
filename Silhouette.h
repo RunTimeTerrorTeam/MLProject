@@ -58,7 +58,7 @@ double Silhouette::a(int pointIndex, int label) {
         }
     }
 
-    return sum / clusters[label].size();
+    return sum / (clusters[label].size() - 1);
 }
 
 double Silhouette::b(int pointIndex, int label) {
@@ -104,10 +104,13 @@ double Silhouette::score(const std::vector<std::vector<double>>& points, const s
 
     double silhouetteTotal = 0.0;
 
-    for (int i = 0; i < points.size(); ++i) {
-        auto label = clusters_assignment[i];
+    for (const auto& cluster : clusters) {
+        for (int i : cluster.second) {
+            auto _a = a(i, cluster.first);
+            auto _b = b(i, cluster.first);
 
-        silhouetteTotal += 1.0 - (a(i, label) / b(i, label));
+            silhouetteTotal += (_b - _a) / std::max(_a, _b);
+        }
     }
     return silhouetteTotal / points.size();
 }
@@ -119,4 +122,6 @@ void Silhouette::groupClusters(const std::vector<int>& clusters_assignment) {
     for (int i = 0; i < points.size(); ++i) {
         clusters[clusters_assignment[i]].push_back(i);
     }
+
+    //clusters.erase(-1);
 }

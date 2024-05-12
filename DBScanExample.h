@@ -7,7 +7,7 @@ namespace DBScan {
 	class DBScanExample
 	{
 	public:
-		static void run1(PointsArray points, int min_pts, double eps, DistanceFun distance = Distance::Euclidean) {
+		static std::vector<int> run1(PointsArray points, double eps, int min_pts, DistanceFun distance = Distance::Euclidean) {
 			auto db_scan = DBScan::DBScan(distance, eps, min_pts);
 
 			Timer t;
@@ -29,6 +29,8 @@ namespace DBScan {
 
 			t.ElapsedTime();
 
+			std::cout << "score:" << db_scan.score() << std::endl;
+
 			Plot plot;
 
 			plot.scatter(points, cluster_assignment);
@@ -37,6 +39,8 @@ namespace DBScan {
 			plot.title("DBScan (eps = " + std::to_string(eps) + ", min points = " + std::to_string(min_pts) + ")");
 
 			plot.show();
+
+			return cluster_assignment;
 		}
 
 		static void run2(PointsArray data, std::pair<int, int> min_pts, std::pair<double, double> eps, double step, DistanceFun distance = Distance::Euclidean) {

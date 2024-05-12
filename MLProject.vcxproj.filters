@@ -139,5 +139,8 @@
     <None Include="Resources\SKIN_90.csv">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Resources\force3.csv">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

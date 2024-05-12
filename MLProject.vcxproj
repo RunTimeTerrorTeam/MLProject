@@ -154,6 +154,7 @@
     <None Include="Resources\editedForce.csv" />
     <None Include="Resources\final_force.csv" />
     <None Include="Resources\force.csv" />
+    <None Include="Resources\force3.csv" />
     <None Include="Resources\iris.csv" />
     <None Include="Resources\iris_.csv" />
     <None Include="Resources\sample2d.csv" />

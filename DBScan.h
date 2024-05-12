@@ -15,8 +15,10 @@ namespace DBScan {
         DBScan(DistanceFun, double, int);
         std::vector<int> fitPredict(const PointsArray&);
         std::vector<int> getClustersCounts();
-        int getMinPoints() const;
+
         double getEps() const;
+        int getMinPoints() const;
+        double score() const;
 
         static std::pair<DBScan, double> bestClusters(const std::vector<Point>&, DistanceFun, const std::pair<double, double>&, const std::pair<int, int>&, double);
     private:                                                               
@@ -24,17 +26,20 @@ namespace DBScan {
         double                           eps;
         int                              min_points;
         std::vector<std::vector<double>> distance_matrix;
+        std::vector<std::vector<double>> points;
         DistanceFun                      distance_fun;
         std::vector<int>                 clusters_count;
         std::deque<int>                  neighbors;
 
-        DBScan() = default;
+        DBScan();
         void updateNeighbors(int);
-        static std::vector<std::vector<double>> generateDistanceMatrix(const PointsArray& points, DistanceFun);
+        static std::vector<std::vector<double>> generateDistanceMatrix(const PointsArray&, DistanceFun);
         bool is(std::vector<bool>&, int);
         std::vector<int> fitPredict_helper();
     };
 
+    DBScan::DBScan() 
+        :distance_fun(NULL), eps(0), min_points(0){}
 
     DBScan::DBScan(DistanceFun distance_fun, double eps, int min_points)
         :distance_fun(distance_fun), eps(eps), min_points(min_points) {}
@@ -43,11 +48,13 @@ namespace DBScan {
         return min_points;
     }
 
-    double DBScan::getEps() const {
+    double DBScan::getEps() const
+    {
         return eps;
     }
 
     std::vector<int> DBScan::fitPredict(const PointsArray& points) {
+        this->points = points;
         distance_matrix = generateDistanceMatrix(points, distance_fun);
         return fitPredict_helper();
     }
@@ -112,7 +119,6 @@ namespace DBScan {
         this->neighbors.insert(this->neighbors.end(), neighbors.begin(), neighbors.end());
     }
 
-
     std::vector<std::vector<double>> DBScan::generateDistanceMatrix(const PointsArray& points, DistanceFun distance_fun) {
         int size = (int)points.size();
 
@@ -137,6 +143,11 @@ namespace DBScan {
         return r;
     }
 
+    double DBScan::score() const {
+        Silhouette s(distance_matrix);
+        return s.score(points, clusters_assignments);
+    }
+
     std::pair<DBScan, double> DBScan::bestClusters(
         const std::vector<Point>& points,
         DistanceFun distance_fun,
@@ -147,15 +158,19 @@ namespace DBScan {
         auto   distance_matrix = generateDistanceMatrix(points, distance_fun);
         double bestSilhouette  = -1.0;
         DBScan db_scan;
-        Silhouette silhouette(distance_matrix);
 
-        for (double _eps = eps.first; _eps < eps.second + step; _eps += step) {
-            for (int min_pts = min_points.first; min_pts <= min_points.second; ++min_pts) {
+        for (int min_pts = min_points.first; min_pts <= min_points.second; ++min_pts) {
+            std::cout << min_pts << " / " << min_points.second << "\r";
+            
+            for (double _eps = eps.first; _eps < eps.second + 0.0000001; _eps += step) {
                 DBScan _db_scan(distance_fun, _eps, min_pts);
                 _db_scan.distance_matrix = distance_matrix;
+                _db_scan.points = points;
                 auto out = _db_scan.fitPredict_helper();
 
-                double silhouette_ans = silhouette.score(points, out);
+                if (_db_scan.clusters_count.size() < 2) continue;
+
+                double silhouette_ans = _db_scan.score();
 
                 if (silhouette_ans <= bestSilhouette) continue; 
 
@@ -163,6 +178,8 @@ namespace DBScan {
                 db_scan = _db_scan;
             }
         }
+
+        std::cout << std::endl;
 
         return std::make_pair(db_scan, bestSilhouette);
     }

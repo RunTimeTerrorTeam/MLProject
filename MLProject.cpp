@@ -25,18 +25,18 @@ std::vector <std::vector<double>> testData2 = {
 	{8.97, 6.12}
 };
 std::vector<std::vector<double>> testData3 = {
-	{ 3, 7 }, //0
-	{ 4, 6 }, //1
-	{ 5, 5 }, //2
-	{ 6, 4 }, //3
-	{ 7, 3 }, //4
-	{ 6, 2 }, //5
-	{ 7, 2 }, //6
-	{ 8, 4 }, //7
-	{ 3, 3 }, //8
-	{ 2, 6 }, //9
-	{ 3, 5 }, //10
-	{ 2, 4 }, //11
+	{ 3, 7 },
+	{ 4, 6 },
+	{ 5, 5 },
+	{ 6, 4 },
+	{ 7, 3 },
+	{ 6, 2 },
+	{ 7, 2 },
+	{ 8, 4 },
+	{ 3, 3 },
+	{ 2, 6 },
+	{ 3, 5 },
+	{ 2, 4 },
 };
 
 std::vector <std::vector<double>> testData4 = {
@@ -50,10 +50,10 @@ std::vector <std::vector<double>> testData4 = {
 int main()
 {
 	try {
-		CSV csv("Resources/sample2d.csv");
+		CSV csv("Resources/force3.csv");
 		auto allData = csv.data();
 		
-		auto data = allData;
+		auto& data = allData;
 		//auto data = std::vector<std::vector<double>>(allData.begin(), allData.begin() +  3000/* max 12203 */);
 
 		//std::cout << "~--~--~--~" << std::endl;
@@ -71,7 +71,7 @@ int main()
 		//std::cout << "~--~--~--~--~--~" << std::endl;
 		//std::cout << "| Agglomerative |" << std::endl;
 		//std::cout << "~--~--~--~--~--~" << std::endl;
-		//Agglomerative::AgglomerativeExample::run1(allData, 2, Agglomerative::LINKAGE::single);
+		//Agglomerative::AgglomerativeExample::run1(allData, 2, Agglomerative::LINKAGE::complete);
 		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 
 		//std::cout << "Next DBScan ";
@@ -80,9 +80,9 @@ int main()
 		//std::cout << "~--~--~--~" << std::endl;
 		//std::cout << "| DBScan |" << std::endl;
 		//std::cout << "~--~--~--~" << std::endl;
-		//DBScan::DBScanExample::run1(data, 4, 0.25 /*, Distance::Euclidean*/);
+		//DBScan::DBScanExample::run1(data, 0.1, 27 /*, Distance::Euclidean*/);
 		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
-		//DBScan::DBScanExample::run2(data, { 7, 10 }, { 0.7, 1 }, 0.005 /*, Distance::Euclidean*/);
+		//DBScan::DBScanExample::run2(data, { 2, 10 }, { 0.1, 2 }, 0.5 /*, Distance::Euclidean*/);
 
 	}
 	catch (std::exception e) {
