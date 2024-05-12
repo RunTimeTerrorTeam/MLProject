@@ -34,7 +34,7 @@ namespace DBScan {
 			plot.scatter(points, cluster_assignment);
 			plot.xLabel("X axis");
 			plot.yLabel("Y axis");
-			plot.title("Agglomerative (eps = " + std::to_string(eps) + ", min points = " + std::to_string(min_pts) + ")");
+			plot.title("DBScan (eps = " + std::to_string(eps) + ", min points = " + std::to_string(min_pts) + ")");
 
 			plot.show();
 		}
