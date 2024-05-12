@@ -8,7 +8,6 @@
 
 
 namespace Optics {
-
     class Point {
     public:
         std::vector<double> coordinates;
@@ -20,6 +19,7 @@ namespace Optics {
             :coordinates(_coordinates), reachability_distance(INFINITY), processed(false), point_index(i) {}
     };
 
+    typedef std::priority_queue<Point*, std::vector<Point*>, bool(*)(const Point*, const Point*)> Seed;
 
 
     class Optics {
@@ -78,8 +78,7 @@ namespace Optics {
 
 
 
-        void update(std::vector<Point*>& N, Point p, std::priority_queue<Point*, std::vector<Point*>,
-            bool(*)(const Point*, const Point*)>& Seeds) {
+        void update(std::vector<Point*>& N, Point p, Seed& Seeds) {
 
             double core_distance = coreDistance(p);
 
@@ -108,12 +107,13 @@ namespace Optics {
             return distance_matrix;
         }
 
+        static bool condition(const Point* p1, const Point* p2) {
+            return p1->reachability_distance > p2->reachability_distance;
+        };
+
         void fit() {
-            std::priority_queue<Point*, std::vector<Point*>, bool(*)(const Point*, const Point*)> Seeds(
-                [](const Point* p1, const Point* p2) {
-                    return p1->reachability_distance > p2->reachability_distance;
-                }
-            );
+            Seed Seeds(condition);
+
             for (Point p : all_points) {
                 if (!p.processed) {
                     std::vector<Point*> N = getNeighbors(p);
