@@ -39,10 +39,18 @@ std::vector<std::vector<double>> testData3 = {
 	{ 2, 4 }, //11
 };
 
+std::vector <std::vector<double>> testData4 = {
+	{1, 1},
+	{5, 5},
+	{8, 8},
+	{10, 10},
+	{2, 2}
+};
+
 int main()
 {
 	try {
-		CSV csv("Resources/SKIN_05.csv");
+		CSV csv("Resources/sample2d.csv");
 		auto allData = csv.data();
 		
 		auto data = allData;
@@ -53,17 +61,17 @@ int main()
 		//std::cout << "~--~--~--~" << std::endl;
 		//auto clusters = KMeans::KMeansExample::run1(data, 10, INT_MAX/* max INT_MAX*/ /*, Distance::Euclidean*/);
 		//csv.save("cluster", clusters);
-		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
+		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 		//KMeans::KMeansExample::run2(data, 10, INT_MAX /* max INT_MAX*/ /*, Distance::Euclidean*/);
-		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
+		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 		
 		/*std::cout << "Next Agglomerative ";
 		std::system("pause");
-
+		*/
 		std::cout << "~--~--~--~--~--~" << std::endl;
 		std::cout << "| Agglomerative |" << std::endl;
 		std::cout << "~--~--~--~--~--~" << std::endl;
-		Agglomerative::AgglomerativeExample::run1(data);*/
+		Agglomerative::AgglomerativeExample::run1(allData, 2, Agglomerative::LINKAGE::single);
 		/*std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 
 		std::cout << "Next DBScan ";
