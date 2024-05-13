@@ -22,11 +22,26 @@
 
 std::vector <std::vector<double>> testData1 = {
 	{1,1},
-	{1.5,1.5},
-	{5,5},
-	{3,4},
-	{4,4},
-	{3,3.5}
+	{2,1},
+	{1,2},
+	{2,2},
+	{3,5},
+	{3,9}, 
+	{3, 10}, 
+	{4, 10}, 
+	{4, 11}, 
+	{5, 10}, 
+	{7, 10}, 
+	{10, 9}, 
+	{10, 6}, 
+	{9, 5}, 
+	{10, 5}, 
+	{11, 5}, 
+	{9, 4}, 
+	{10, 4}, 
+	{11, 4}, 
+	{10, 3}
+
 };
 std::vector <std::vector<double>> testData2 = {
 	{0.7, 3.2},
@@ -70,7 +85,7 @@ int main()
 		//std::cout << "~--~--~--~--~--~" << std::endl;
 		//std::cout << "| Agglomerative |" << std::endl;
 		//std::cout << "~--~--~--~--~--~" << std::endl;
-		Agglomerative::AgglomerativeExample::run1(allData);
+		//Agglomerative::AgglomerativeExample::run1(allData);
 		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 
 		//std::cout << "Next DBScan ";
@@ -86,12 +101,13 @@ int main()
 
 
 
-		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
-		std::cout << "                  Mohamed Atef Device Optics							"<< std::endl;
-		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
+		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__- " << std::endl;
+		std::cout << "                  Mohamed Atef Device Optics						  "<< std::endl;
+		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__- " << std::endl;
 
 
-		Optics::OpticsExample::run(testData1,2,2);
+
+		Optics::OpticsExample::run(testData1,2,5);
 		
 	}
 	catch (std::exception e) {
