@@ -145,6 +145,8 @@
     <ClInclude Include="KMeansExample.h" />
     <ClInclude Include="pbPlots.hpp" />
     <ClInclude Include="Plot.h" />
+    <ClInclude Include="Optics.h" />
+    <ClInclude Include="OpticsExample.h" />
     <ClInclude Include="Silhouette.h" />
     <ClInclude Include="supportLib.hpp" />
     <ClInclude Include="Timer.h" />

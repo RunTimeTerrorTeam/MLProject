@@ -129,6 +129,7 @@ namespace DBScan {
             distance_matrix[i] = std::vector<double>(i);
 
             for (int j = 0; j < i; j++) {
+
                 distance_matrix[i][j] = distance_fun(points[i], points[j]);
             }
         }

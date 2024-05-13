@@ -6,7 +6,6 @@
 #include "Timer.h"
 #include "Plot.h"
 
-
 namespace Agglomerative {
 	class AgglomerativeExample
 	{
