@@ -147,9 +147,11 @@
     <ClInclude Include="Plot.h" />
     <ClInclude Include="Optics.h" />
     <ClInclude Include="OpticsExample.h" />
+    <ClInclude Include="ReadCSV.h" />
     <ClInclude Include="Silhouette.h" />
     <ClInclude Include="supportLib.hpp" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="WriteCSV.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\data.csv" />

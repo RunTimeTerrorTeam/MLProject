@@ -66,8 +66,8 @@ std::vector <std::vector<double>> testData4 = {
 int main()
 {
 	try {
-		CSV csv("Resources/test2.csv");
-		auto allData = csv.data();
+		auto read_csv = CSV::read("Resources/sample2d.csv");
+		auto allData = read_csv.data();
 		
 		auto& data = allData;
 		//auto data = std::vector<std::vector<double>>(allData.begin(), allData.begin() +  3000/* max 12203 */);
@@ -100,6 +100,22 @@ int main()
 		//DBScan::DBScanExample::run1(data, 0.1, 27 /*, Distance::Euclidean*/);
 		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 		//DBScan::DBScanExample::run2(data, { 2, 10 }, { 0.1, 2 }, 0.5 /*, Distance::Euclidean*/);
+		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
+
+		//std::cout << "Next Optics ";
+		//std::system("pause");
+
+		std::cout << "~--~--~--~" << std::endl;
+		std::cout << "| Optics |" << std::endl;
+		std::cout << "~--~--~--~" << std::endl;
+		auto out = Optics::OpticsExample::run1(allData, 0.7, 7);
+
+		auto write_csv = CSV::write("Resources/optics.csv");
+
+		write_csv.append("point_index", out.first);
+		write_csv.append("reachability_distance", out.second);
+		write_csv.save();
+		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 
 	}
 	catch (std::exception e) {
