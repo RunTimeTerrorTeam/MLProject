@@ -116,41 +116,47 @@ namespace Optics {
     std::vector<int> Optics::getClusters() {
         cluster_assignments = std::vector<int>(points.size(), -1);
         int cluster_number = 0;
-        cluster_counts = std::vector<int>();
-
-        cluster_counts.push_back(0);
+        cluster_counts = std::vector<int>(1, 0);
         
         for (int i = 0; i < ordered_list.size(); i++) {
-            if (reachability_distance[ordered_list[i]] > eps) {
-                auto neighbors = getNeighbors(ordered_list[i]);
-                auto core_distance = coreDistance(ordered_list[i], neighbors);
+            auto pointIndex = ordered_list[i];
 
-                if (core_distance <= eps && cluster_counts.back() != 0) {
+            if (reachability_distance[pointIndex] > eps) {
+                auto neighbors = getNeighbors(pointIndex);
+                auto core_distance = coreDistance(pointIndex, neighbors);
+                
+                if (core_distance <= eps) {
                     if (cluster_counts.back() < min_points) {
-
-                        for (auto& c : cluster_assignments) {
-                            if (c == cluster_number) {
-                                c = -1;
+                        for (auto& a : cluster_assignments) {
+                            if (a == cluster_number) {
+                                a = -1;
                             }
-                         }
+                        }
 
-                        cluster_counts.pop_back();
                         cluster_number--;
+                        cluster_counts.pop_back();
                     }
 
                     cluster_number++;
-                    cluster_counts.push_back(0);
-                }
-
-                continue;
+                    cluster_counts.push_back(1);
+                    cluster_assignments[pointIndex] = cluster_number;
+                } 
             }
-
-            cluster_assignments[ordered_list[i]] = cluster_number;
-            cluster_counts.back()++;
+            else {
+                cluster_counts.back()++;
+                cluster_assignments[pointIndex] = cluster_number;
+            }
         }
 
-        if (cluster_counts.back() == 0) 
+        if (cluster_counts.back() < min_points) {
+            for (auto& a : cluster_assignments) {
+                if (a == cluster_number) {
+                    a = -1;
+                }
+            }
+
             cluster_counts.pop_back();
+        }
 
         return cluster_assignments;
     }
