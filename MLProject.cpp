@@ -94,10 +94,13 @@ int main()
 		//std::cout << "Next DBScan ";
 		//std::system("pause");
 
-		//std::cout << "~--~--~--~" << std::endl;
-		//std::cout << "| DBScan |" << std::endl;
-		//std::cout << "~--~--~--~" << std::endl;
-		//DBScan::DBScanExample::run1(data, 0.1, 27 /*, Distance::Euclidean*/);
+		double eps = 0.1;
+		int min_pts = 2;
+
+		std::cout << "~--~--~--~" << std::endl;
+		std::cout << "| DBScan |" << std::endl;
+		std::cout << "~--~--~--~" << std::endl;
+		DBScan::DBScanExample::run1(data, eps, min_pts/*, Distance::Euclidean*/);
 		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 		//DBScan::DBScanExample::run2(data, { 2, 10 }, { 0.1, 2 }, 0.5 /*, Distance::Euclidean*/);
 		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
@@ -108,13 +111,13 @@ int main()
 		std::cout << "~--~--~--~" << std::endl;
 		std::cout << "| Optics |" << std::endl;
 		std::cout << "~--~--~--~" << std::endl;
-		auto out = Optics::OpticsExample::run1(allData, 0.7, 7);
-
-		auto write_csv = CSV::write("Resources/optics.csv");
-
-		write_csv.append("point_index", out.first);
-		write_csv.append("reachability_distance", out.second);
-		write_csv.save();
+		Optics::OpticsExample::run1(data, eps, min_pts);
+		//
+		//auto write_csv = CSV::write("Resources/optics.csv");
+		//
+		//write_csv.append("point_index", out.first);
+		//write_csv.append("reachability_distance", out.second);
+		//write_csv.save();
 		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 
 	}

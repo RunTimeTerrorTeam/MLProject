@@ -24,11 +24,14 @@ namespace Optics {
     using DistanceFun = double(*)(Point, Point);
     typedef std::priority_queue<int, std::vector<int>, Condition> Seed;
 
-
     class Optics {
     public:
         Optics(DistanceFun, double, int);
-        std::pair<std::vector<int>, std::vector<double>> fitPredict(const std::vector<Point>&);
+        std::vector<int> fitPredict(const std::vector<Point>&);
+        std::vector<int> getClustersCounts();
+        std::vector<double> getReachabilityDistance();
+        std::vector<int> getOrderedList();
+        double score() const;
 
     private:
         std::vector<std::vector<double>> distance_matrix;
@@ -40,6 +43,8 @@ namespace Optics {
         std::vector<bool>                processed;
         Seed                             seeds;
         std::vector<double>              reachability_distance;
+        std::vector<int>                 cluster_counts;
+        std::vector<int>                 cluster_assignments;
 
         double getDistance(const int&, const int&);
         std::vector<int> getNeighbors(const int&);
@@ -47,12 +52,13 @@ namespace Optics {
         bool is(std::vector<bool>&, const int&);
         void updateSeeds(const int&, const double&, const std::vector<int>&);
         std::vector<std::vector<double>> generateDistanceMatrix(const std::vector<Point>&);
+        std::vector<int> getClusters();
     };
 
     Optics::Optics(DistanceFun distance_fun, double epsilon, int MinPts)
         :distance_fun(distance_fun), min_points(MinPts), eps(epsilon) {}
 
-    std::pair<std::vector<int>, std::vector<double>> Optics::fitPredict(const std::vector<Point>& points) {
+    std::vector<int> Optics::fitPredict(const std::vector<Point>& points) {
         int size = (int)points.size();
 
         this->points = points;
@@ -86,7 +92,67 @@ namespace Optics {
             }
         }
 
-        return { ordered_list, reachability_distance };
+        return getClusters();
+    }
+
+    std::vector<double> Optics::getReachabilityDistance() {
+        return reachability_distance;
+    }
+
+    double Optics::score() const
+    {
+        Silhouette s(distance_matrix);
+        return s.score(points, cluster_assignments);
+    }
+
+    std::vector<int> Optics::getClustersCounts() {
+        return cluster_counts;
+    }
+
+    std::vector<int> Optics::getOrderedList() {
+        return ordered_list;
+    }
+
+    std::vector<int> Optics::getClusters() {
+        cluster_assignments = std::vector<int>(points.size(), -1);
+        int cluster_number = 0;
+        cluster_counts = std::vector<int>();
+
+        cluster_counts.push_back(0);
+        
+        for (int i = 0; i < ordered_list.size(); i++) {
+            if (reachability_distance[ordered_list[i]] > eps) {
+                auto neighbors = getNeighbors(ordered_list[i]);
+                auto core_distance = coreDistance(ordered_list[i], neighbors);
+
+                if (core_distance <= eps && cluster_counts.back() != 0) {
+                    if (cluster_counts.back() < min_points) {
+
+                        for (auto& c : cluster_assignments) {
+                            if (c == cluster_number) {
+                                c = -1;
+                            }
+                         }
+
+                        cluster_counts.pop_back();
+                        cluster_number--;
+                    }
+
+                    cluster_number++;
+                    cluster_counts.push_back(0);
+                }
+
+                continue;
+            }
+
+            cluster_assignments[ordered_list[i]] = cluster_number;
+            cluster_counts.back()++;
+        }
+
+        if (cluster_counts.back() == 0) 
+            cluster_counts.pop_back();
+
+        return cluster_assignments;
     }
 
     double Optics::getDistance(const int& i, const int& j) {

@@ -17,28 +17,47 @@ namespace Optics {
 
 		Timer t;
 		t.start();
-		// out => [points numbers, reachability distance]
-		auto out = optics.fitPredict(data);
+		auto clusters_assignments = optics.fitPredict(data);
 		t.end();
 
-		auto& order_list = out.first;
-		auto& reachability_distance = out.second;
+		auto order_list = optics.getOrderedList();
+		auto reachability_distance = optics.getReachabilityDistance();
+		int size = (int)reachability_distance.size();
+		auto ordered_reachability_distance = std::vector<double>(size);
+		auto indexes = std::vector<double>(size); 
+		auto clusters_counts = optics.getClustersCounts();
 
-		for (int point_index : order_list) {
-			std::cout << "Point(" << point_index + 1 << "): " << reachability_distance[point_index] << std::endl;
+		int count = 0;
+
+		for (int i = 0; i < clusters_counts.size(); i++) {
+			count += clusters_counts[i];
+			std::cout << "Cluster(" << i << "): " << clusters_counts[i] << std::endl;
 		}
 
-		std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
-
-		int size = (int)reachability_distance.size();
-
-		auto ordered_reachability_distance = std::vector<double>(size);
-
+		std::cout << "Cluster(-1): " << clusters_assignments.size() - count << std::endl;
+		
 		for (int i = 0; i < size; i++) {
+			indexes[i] = i;
 			ordered_reachability_distance[i] = reachability_distance[order_list[i]];
 		}
 
+
 		t.ElapsedTime();
+
+		std::cout << "score: " << optics.score() << std::endl;
+
+		/*Plot plot;
+		plot.scatter(indexes, ordered_reachability_distance);
+		plot.show();*/
+
+		Plot plot2;
+
+		plot2.scatter(data, clusters_assignments);
+		plot2.xLabel("X axis");
+		plot2.yLabel("Y axis");
+		plot2.title("Optics clusters (eps = " + std::to_string(eps) + ", min points = " + std::to_string(min_pts) + ")");
+
+		plot2.show();
 
 		return { order_list, ordered_reachability_distance };
 	}
