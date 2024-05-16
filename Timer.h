@@ -16,6 +16,10 @@ public:
     void ElapsedTime() {
         std::cout << "Elapsed Time : " << std::fixed << std::chrono::duration<double>(endAt - startAt).count() << "s" << std::endl;
     }
+
+    double time() {
+        return std::chrono::duration<double>(endAt - startAt).count();
+    }
 private:
     typedef std::chrono::time_point<std::chrono::steady_clock> clock_point;
     clock_point startAt, endAt;

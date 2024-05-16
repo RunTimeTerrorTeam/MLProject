@@ -154,7 +154,6 @@
     <ClInclude Include="WriteCSV.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\(output)optics.csv" />
     <None Include="Resources\data.csv" />
     <None Include="Resources\editedForce.csv" />
     <None Include="Resources\final_force.csv" />

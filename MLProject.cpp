@@ -1,5 +1,6 @@
 #include <iostream>
 #include <exception>
+#include <string>
 
 #include "CSV.h"
 #include "KMeansExample.h"
@@ -77,15 +78,47 @@ void test1(const std::vector<std::vector<double>>& data) {
 	t.ElapsedTime();
 }
 
+void test2() {
+	std::vector<double> time(10);
+	std::vector<double> data_per(10);
+
+	int n = 0;
+
+	for (int i = 10; i <= 100; i += 10) {
+		auto read_csv = CSV::read("Resources/SKIN_" + std::to_string(i) + ".csv");
+		auto clusters = KMeans::KMeans(Distance::Euclidean, 10, INT_MAX/* max INT_MAX*/ /*, Distance::Euclidean*/);
+
+		Timer t;
+		t.start();
+
+		for (int j = 0; j < 10; j++) {
+			clusters.fitPredict(read_csv.data());
+		}
+
+		t.end();
+
+		t.ElapsedTime();
+
+		time[n] = t.time();
+		data_per[n] = i;
+	}
+
+	Plot p;
+	p.plot(data_per, time);
+
+	p.show();
+}
+
 int main()
 {
 	try {
-		auto read_csv = CSV::read("Resources/editedForce.csv");
-		auto allData = read_csv.data();
+		test2();
+		//auto read_csv = CSV::read("Resources/editedForce.csv");
+		//auto allData = read_csv.data();
 		
 		//auto& data = allData;
 		
-		test1(allData);
+		//test1(allData);
 
 		//auto data = std::vector<std::vector<double>>(allData.begin(), allData.begin() +  3000/* max 12203 */);
 
