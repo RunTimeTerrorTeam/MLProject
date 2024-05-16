@@ -163,7 +163,7 @@
     <None Include="Resources\iris_.csv" />
     <None Include="Resources\sample2d.csv" />
     <None Include="Resources\sample3d.csv" />
-    <None Include="Resources\skin_.csv" />
+    <None Include="Resources\SKIN_100.csv" />
     <None Include="Resources\SKIN_05.csv" />
     <None Include="Resources\SKIN_10.csv" />
     <None Include="Resources\SKIN_100new.csv" />
