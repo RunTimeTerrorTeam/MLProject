@@ -54,7 +54,6 @@ std::vector<std::vector<double>> testData3 = {
 	{ 3, 5 },
 	{ 2, 4 },
 };
-
 std::vector <std::vector<double>> testData4 = {
 	{1, 1},
 	{5, 5},
@@ -63,13 +62,31 @@ std::vector <std::vector<double>> testData4 = {
 	{2, 2}
 };
 
+void test1(const std::vector<std::vector<double>>& data) {
+	auto clusters = KMeans::KMeans(Distance::Euclidean, 10, INT_MAX/* max INT_MAX*/ /*, Distance::Euclidean*/);
+	
+	Timer t;
+	t.start();
+
+	for (int i = 0; i < 10; i++) {
+		clusters.fitPredict(data);
+	}
+
+	t.end();
+
+	t.ElapsedTime();
+}
+
 int main()
 {
 	try {
-		auto read_csv = CSV::read("Resources/sample2d.csv");
+		auto read_csv = CSV::read("Resources/editedForce.csv");
 		auto allData = read_csv.data();
 		
-		auto& data = testData1;
+		//auto& data = allData;
+		
+		test1(allData);
+
 		//auto data = std::vector<std::vector<double>>(allData.begin(), allData.begin() +  3000/* max 12203 */);
 
 		//std::cout << "~--~--~--~" << std::endl;
