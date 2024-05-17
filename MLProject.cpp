@@ -79,14 +79,14 @@ void test1(const std::vector<std::vector<double>>& data) {
 }
 
 void test2() {
-	std::vector<double> time(10);
-	std::vector<double> data_per(10);
+	std::vector<double> time(9);
+	std::vector<double> data_per(9);
 
-	int n = 0;
+	int n = 1;
 
-	for (int i = 10; i <= 100; i += 10) {
+	for (int i = 1; i <= 8; i += 1) {
 		auto read_csv = CSV::read("Resources/SKIN_" + std::to_string(i) + ".csv");
-		auto clusters = KMeans::KMeans(Distance::Euclidean, 10, INT_MAX/* max INT_MAX*/ /*, Distance::Euclidean*/);
+		auto clusters = DBScan::DBScan(Distance::Euclidean, 1.0,2 /* max INT_MAX*/ /*, Distance::Euclidean*/);
 
 		Timer t;
 		t.start();
@@ -101,22 +101,25 @@ void test2() {
 
 		time[n] = t.time();
 		data_per[n] = i;
+		n++;
 	}
 
 	Plot p;
 	p.plot(data_per, time);
-
+	p.xLabel("size data");
+	p.yLabel("Time");
+	p.title("SKIN_NO_SKIN");
 	p.show();
 }
 
 int main()
 {
 	try {
-		test2();
-		//auto read_csv = CSV::read("Resources/editedForce.csv");
-		//auto allData = read_csv.data();
+		//test2();
+		auto read_csv = CSV::read("Resources/SKIN_1.csv");
+		auto allData = read_csv.data();
 		
-		//auto& data = allData;
+		auto& data = allData;
 		
 		//test1(allData);
 
@@ -150,7 +153,7 @@ int main()
 		//std::cout << "~--~--~--~" << std::endl;
 		//std::cout << "| DBScan |" << std::endl;
 		//std::cout << "~--~--~--~" << std::endl;
-		//DBScan::DBScanExample::run1(data, eps, min_pts, Distance::Manhatin);
+		DBScan::DBScanExample::run1(data, 8, 10, Distance::Euclidean);
 		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
 		//DBScan::DBScanExample::run2(data, { 2, 10 }, { 0.1, 2 }, 0.5 /*, Distance::Euclidean*/);
 		//std::cout << "-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-__-" << std::endl;
