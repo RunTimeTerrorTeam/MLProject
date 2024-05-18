@@ -109,9 +109,6 @@
     <None Include="Resources\editedForce.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Resources\skin_.csv">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="Resources\final_force.csv">
       <Filter>Resource Files</Filter>
     </None>
@@ -124,36 +121,6 @@
     <None Include="Resources\sample3d.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Resources\SKIN_05.csv">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources\SKIN_10.csv">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources\SKIN_20.csv">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources\SKIN_30.csv">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources\SKIN_40.csv">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources\SKIN_50.csv">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources\SKIN_60.csv">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources\SKIN_70.csv">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources\SKIN_80.csv">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources\SKIN_90.csv">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="Resources\force3.csv">
       <Filter>Resource Files</Filter>
     </None>
@@ -163,40 +130,43 @@
     <None Include="Resources\test2.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Resources\(output)optics.csv">
+    <None Include="Resources\Skin_NonSkin.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Resources\SKIN_5new.csv">
+    <None Include="Resources\SKIN_8.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Resources\SKIN_10new.csv">
+    <None Include="Resources\SKIN_7.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Resources\SKIN_20new.csv">
+    <None Include="Resources\SKIN_6.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Resources\SKIN_30new.csv">
+    <None Include="Resources\SKIN_5.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Resources\SKIN_40new.csv">
+    <None Include="Resources\SKIN_3.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Resources\SKIN_50new.csv">
+    <None Include="Resources\SKIN_4.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Resources\SKIN_60new.csv">
+    <None Include="Resources\SKIN_2.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Resources\SKIN_70new.csv">
+    <None Include="Resources\SKIN_1.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Resources\SKIN_80new.csv">
+    <None Include="Resources\old_iris.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Resources\SKIN_90new.csv">
+    <None Include="Resources\iris_norm.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Resources\SKIN_100new.csv">
+    <None Include="Resources\glass.data.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\R15.csv">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

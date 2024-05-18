@@ -159,10 +159,12 @@
     <None Include="Resources\final_force.csv" />
     <None Include="Resources\force.csv" />
     <None Include="Resources\force3.csv" />
+    <None Include="Resources\glass.data.csv" />
     <None Include="Resources\iris.csv" />
     <None Include="Resources\iris_.csv" />
     <None Include="Resources\iris_norm.csv" />
     <None Include="Resources\old_iris.csv" />
+    <None Include="Resources\R15.csv" />
     <None Include="Resources\sample2d.csv" />
     <None Include="Resources\sample3d.csv" />
     <None Include="Resources\SKIN_1.csv" />
